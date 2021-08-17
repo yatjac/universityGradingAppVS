@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cis3325_GraderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="DepartmentCode" />
+    </Key>
+    <Property Name="DepartmentCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Graders">
+    <Key>
+      <PropertyRef Name="GraderID" />
+    </Key>
+    <Property Name="GraderID" Type="int" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="HourlyPay" Type="decimal" Precision="18" Scale="5" />
+    <Property Name="Hours" Type="int" />
+    <Property Name="Stipend" Type="decimal" Precision="18" Scale="5" />
+    <Property Name="GraderType" Type="int" />
+    <Property Name="Department" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_Graders_Department">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="Graders" Type="Self.Graders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="DepartmentCode" />
+      </Principal>
+      <Dependent Role="Graders">
+        <PropertyRef Name="Department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="cis3325_GraderModelStoreContainer">
+    <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Graders" EntityType="Self.Graders" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Graders_Department" Association="Self.FK_Graders_Department">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Graders" EntitySet="Graders" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
